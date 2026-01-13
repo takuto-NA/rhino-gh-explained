@@ -1,4 +1,6 @@
 import { defineConfig } from 'vitepress'
+import { nav } from './config/nav'
+import { sidebar } from './config/sidebar'
 
 export default defineConfig({
   lang: 'ja-JP',
@@ -18,26 +20,8 @@ export default defineConfig({
   base: '/rhino-gh-explained/',
 
   themeConfig: {
-    nav: [
-      { text: 'ホーム', link: '/' },
-      { text: 'Rhino', link: '/rhino/' },
-      { text: 'Grasshopper', link: '/grasshopper/' }
-    ],
-
-    sidebar: [
-      {
-        text: 'Rhino',
-        items: [
-          { text: 'はじめに', link: '/rhino/' },
-        ]
-      },
-      {
-        text: 'Grasshopper',
-        items: [
-          { text: 'はじめに', link: '/grasshopper/' },
-        ]
-      }
-    ],
+    nav,
+    sidebar,
 
     socialLinks: [
       { icon: 'github', link: 'https://github.com/takuto_takahashi/rhino-gh-explained' }

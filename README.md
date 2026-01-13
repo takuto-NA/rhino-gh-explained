@@ -24,3 +24,7 @@ npm run docs:build
 
 `main`ブランチにプッシュすると、GitHub Actionsによって自動的にGitHub Pagesへデプロイされます。
 デプロイ先の設定は `docs/.vitepress/config.mts` の `base` フィールドを確認してください。
+
+## ページ追加
+
+`docs/rhino/` または `docs/grasshopper/` に Markdown を追加すると、サイドバーは自動で更新されます（詳細は `CONTRIBUTING.md`）。
