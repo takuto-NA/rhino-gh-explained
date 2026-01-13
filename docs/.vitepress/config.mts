@@ -4,6 +4,14 @@ export default defineConfig({
   lang: 'ja-JP',
   title: "Rhino & Grasshopper 解説",
   description: "RhinoとGrasshopperの使い方を解説するサイトです。",
+
+  // Windows 環境で build 時にページチャンク解決に失敗するケースがあるため、
+  // realpath によるパス変換を避けて、Rollup の facadeModuleId と一致させる
+  vite: {
+    resolve: {
+      preserveSymlinks: true
+    }
+  },
   
   // GitHub Pages用のベースパス設定
   // リポジトリ名に合わせて変更が必要な場合があります
