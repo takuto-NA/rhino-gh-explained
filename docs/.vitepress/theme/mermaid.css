@@ -1,0 +1,14 @@
+/* Mermaid diagrams (via vitepress-plugin-mermaid)
+   Keep the SVG responsive and readable in both light/dark themes. */
+
+.vp-doc .mermaid {
+  margin: 16px 0;
+  overflow-x: auto;
+}
+
+.vp-doc .mermaid svg {
+  max-width: 100%;
+  height: auto;
+  background: transparent !important;
+}
+
