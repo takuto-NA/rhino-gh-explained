@@ -15,6 +15,8 @@ order: 70
 
 まずはSTLで通し、運用が固まったら3MFを検討、が安全です。
 
+> 他CAD/解析/CAMへ渡す場合の注意（STEP/IGES含む）: `subd-cad-interoperability-and-formats.md`
+
 ### Rhinoコマンド例（出力）
 
 - `Export`（選択書き出しなら `ExportSelected`）

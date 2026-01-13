@@ -67,14 +67,14 @@ order: 40
 
 ### SubDの扱い（実務の落とし所）
 
-SubDは造形に強い一方、\n+“製造用の殻/当たり面”を作る段階では、次のどちらかが安定です。
+SubDは造形に強い一方、“製造用の殻/当たり面”を作る段階では、次のどちらかが安定です。
 
 - `ToNURBS` して Brep に寄せ、`Shell` / `OffsetSrf` で厚みを作る
 - `ToMesh` してメッシュに寄せ、`OffsetMesh` で厚みを作る
 
 ## RhinoCommon（C#）: Brepを1mmオフセットしてソリッド化
 
-Rhino上での `OffsetSrf` / `Shell` と同じ発想を、RhinoCommonで行う例です。\n+厚み方向を反転したい場合は距離を負にします（-1 など）。
+Rhino上での `OffsetSrf` / `Shell` と同じ発想を、RhinoCommonで行う例です。厚み方向を反転したい場合は距離を負にします（-1 など）。
 
 ```csharp
 using Rhino;
