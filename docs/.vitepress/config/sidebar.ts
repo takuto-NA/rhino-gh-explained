@@ -83,6 +83,14 @@ function createSectionGroup(section: 'rhino' | 'grasshopper', label: string): Si
 
 export const sidebar: DefaultTheme.Sidebar = {
   '/rhino/': createSectionGroup('rhino', 'Rhino'),
-  '/grasshopper/': createSectionGroup('grasshopper', 'Grasshopper')
+  '/grasshopper/': createSectionGroup('grasshopper', 'Grasshopper'),
+  '/': [
+    {
+      text: '参考資料',
+      items: [
+        { text: '参考資料・公式ドキュメント', link: '/references' }
+      ]
+    }
+  ]
 }
 
