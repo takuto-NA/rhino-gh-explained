@@ -54,6 +54,157 @@ A: 以下の手順で進めます：
    - フィットした直線・円弧を`Join Curves`で接続
    - 必要に応じて、接続点での連続性を調整
 
+## 別解: RhinoCommonの `Curve.ToArcsAndLines` を使うと「一発で」LINE/ARC化できる
+
+質問にあるとおり、RhinoCommonには `Curve.ToArcsAndLines(...)` があり、これは **曲線を「直線＋円弧のPolyCurve」に変換**してくれます。
+
+- **結論**: スクリプト（Python/C#）を使えるなら、ページ冒頭の「曲率→境界検出→Fit」の流れを省略して、**まず `ToArcsAndLines` を試すのが最短**になることがあります。
+
+### それでもこのページで必須にしていない理由（使い分け）
+
+- **スクリプト前提（ただし“標準扱い”の範囲）**: `ToArcsAndLines` はRhinoCommon APIなので、Grasshopperでは通常 **Python/C#コンポーネント経由**になります。  
+  - ※このドキュメントでは「Python/C#コンポーネント（外部ライブラリ不要）」は**標準コンポーネント扱い**とします。
+- **“フィット”ではなく“近似分解”**: 出力は「許容誤差（tolerance）と角度許容差（angleTolerance）を満たすように分解した結果」です。  
+  - DXFに落とす用途では大抵これで十分ですが、「セグメント境界を自分の規則で決めたい」「最小二乗で直線/円弧を当てたい」なら、既存の `Fit Line` / `Fit Arc` ワークフローの方がコントロールしやすいです。
+- **パラメータ調整が結果を支配する**: `tolerance / angleTolerance / minLength / maxLength` の設定で、セグメント数・形状が大きく変わります。運用ルール（公差や最小長）を決めておかないと結果が不安定になりがちです。
+
+### 参考（API仕様）
+
+RhinoCommonの `Curve.ToArcsAndLines` は以下の説明です：
+
+- `Curve.ToArcsAndLines(...)`: 曲線を円弧セグメントからなるPolyCurveに変換し、**ほぼ直線の区間は直線セグメントにする**  
+- パラメータ: `tolerance`, `angleTolerance`, `minimumLength`, `maximumLength`
+
+### C#スクリプト例（Grasshopper Script / C#）: `ToArcsAndLines` をコピペで実行
+
+入力の想定：
+
+- **inputCurveObject**: Curve
+- **linearToleranceObject**: 距離許容差（未指定ならドキュメントのAbsolute tolerance）
+- **angleToleranceDegreesObject**: 角度許容差（度）。内部でラジアンに変換（未指定ならドキュメントのAngle tolerance）
+- **minimumSegmentLengthObject**: 最小セグメント長
+- **maximumSegmentLengthObject**: 最大セグメント長
+- **outputPolyCurve**: 変換後の PolyCurve（Line/Arc セグメント）
+
+```csharp
+// Grasshopper Script Instance
+#region Usings
+using System;
+using System.Linq;
+using System.Collections;
+using System.Collections.Generic;
+using System.Drawing;
+
+using Rhino;
+using Rhino.Geometry;
+
+using Grasshopper;
+using Grasshopper.Kernel;
+using Grasshopper.Kernel.Data;
+using Grasshopper.Kernel.Types;
+#endregion
+
+public class Script_Instance : GH_ScriptInstance
+{
+    #region Notes
+    /* Members:
+        RhinoDoc RhinoDocument
+        GH_Document GrasshopperDocument
+        IGH_Component Component
+        int Iteration
+
+      Methods (Virtual & overridable):
+        Print(string text)
+        Print(string format, params object[] args)
+        Reflect(object obj)
+        Reflect(object obj, string method_name)
+    */
+    #endregion
+
+    // 引数名を記述的な名称に変更しました（x, y 等の廃止）
+    private void RunScript(
+        object inputCurveObject, 
+        object linearToleranceObject, 
+        object angleToleranceDegreesObject, 
+        object minimumSegmentLengthObject, 
+        object maximumSegmentLengthObject, 
+        ref object outputPolyCurve)
+    {
+        // 1. Curve の取得と検証
+        Curve inputCurve = inputCurveObject as Curve;
+        if (inputCurve == null)
+        {
+            Print("Error: inputCurve に有効なカーブが入力されていません。");
+            return;
+        }
+
+        // 2. Linear Tolerance (距離許容差) の取得
+        // 入力がない、または不正な場合はドキュメントの絶対許容値を使用
+        double linearTolerance = RhinoDocument.ModelAbsoluteTolerance;
+        if (linearToleranceObject != null)
+        {
+            if (!GH_Convert.ToDouble(linearToleranceObject, out linearTolerance, GH_Conversion.Both))
+            {
+                Print("Warning: linearTolerance が数値ではありません。ドキュメント設定値を使用します。");
+            }
+        }
+
+        // 3. Angle Tolerance (角度許容差) の取得とラジアン変換
+        // ユーザーは度数法(Degree)で入力することを想定し、内部でラジアンに変換します
+        double angleToleranceDegrees = 0.0;
+        double angleToleranceRadians = RhinoDocument.ModelAngleToleranceRadians;
+
+        if (angleToleranceDegreesObject != null && GH_Convert.ToDouble(angleToleranceDegreesObject, out angleToleranceDegrees, GH_Conversion.Both))
+        {
+            // 度数法をラジアンに変換
+            angleToleranceRadians = RhinoMath.ToRadians(angleToleranceDegrees);
+        }
+        else
+        {
+            // 入力がない場合はドキュメント設定値を使用（ログに出力）
+            Print($"Note: angleToleranceDegrees が指定されていないため、ドキュメント設定値 ({RhinoMath.ToDegrees(angleToleranceRadians):F1}度) を使用します。");
+        }
+
+        // 4. Minimum Segment Length (最小セグメント長) の取得
+        double minimumSegmentLength = 0.0;
+        if (minimumSegmentLengthObject != null)
+        {
+            GH_Convert.ToDouble(minimumSegmentLengthObject, out minimumSegmentLength, GH_Conversion.Both);
+        }
+
+        // 5. Maximum Segment Length (最大セグメント長) の取得
+        double maximumSegmentLength = 0.0;
+        if (maximumSegmentLengthObject != null)
+        {
+            GH_Convert.ToDouble(maximumSegmentLengthObject, out maximumSegmentLength, GH_Conversion.Both);
+        }
+
+        // 6. メソッドの実行: ToArcsAndLines
+        // 全てのパラメータを渡して変換を実行します
+        PolyCurve resultPolyCurve = inputCurve.ToArcsAndLines(
+            linearTolerance, 
+            angleToleranceRadians, 
+            minimumSegmentLength, 
+            maximumSegmentLength
+        );
+
+        // 7. 結果の出力
+        if (resultPolyCurve != null)
+        {
+            outputPolyCurve = resultPolyCurve;
+            
+            // 参考情報として変換結果の情報を出力（デバッグ用）
+            Print($"Conversion Success: {resultPolyCurve.SegmentCount} segments generated.");
+        }
+        else
+        {
+            Print("Error: 変換に失敗しました。パラメータを調整してください。");
+            outputPolyCurve = null;
+        }
+    }
+}
+```
+
 **Q: 曲率分析による自動セグメント化の利点は？**
 
 A: 以下の利点があります：
