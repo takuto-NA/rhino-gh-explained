@@ -86,6 +86,12 @@ export const sidebar: DefaultTheme.Sidebar = {
   '/grasshopper/': createSectionGroup('grasshopper', 'Grasshopper'),
   '/': [
     {
+      text: 'ガイド',
+      items: [
+        { text: '執筆方針（文章のルール）', link: '/writing-guidelines' }
+      ]
+    },
+    {
       text: '参考資料',
       items: [
         { text: '参考資料・公式ドキュメント', link: '/references' }

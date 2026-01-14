@@ -52,7 +52,7 @@ export default withMermaid(defineConfig({
     sidebar,
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/takuto_takahashi/rhino-gh-explained' }
+      { icon: 'github', link: 'https://github.com/takuto-na/rhino-gh-explained' }
     ],
 
     footer: {

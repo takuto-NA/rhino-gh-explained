@@ -3,6 +3,7 @@ import type { DefaultTheme } from 'vitepress'
 export const nav: DefaultTheme.NavItem[] = [
   { text: 'ホーム', link: '/' },
   { text: 'Rhino', link: '/rhino/' },
-  { text: 'Grasshopper', link: '/grasshopper/' }
+  { text: 'Grasshopper', link: '/grasshopper/' },
+  { text: '参考資料', link: '/references' }
 ]
 

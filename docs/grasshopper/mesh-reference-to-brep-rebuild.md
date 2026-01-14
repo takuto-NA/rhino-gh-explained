@@ -11,8 +11,8 @@ Q: 既存のメッシュデータ（参照メッシュ）をガイドにして�
 A: Blender等で作成された自由なメッシュ形状を **「参照（リファレンス）」** としつつ、Grasshopperで **「数学的にクリーンで編集可能なパラメトリックモデル」** として組み直すことが目的です。メッシュをそのまま変換するのではなく、いったん **基準・ランドマーク・断面曲線** という幾何学的な要素に分解して再構築することで、精密な肉厚設定や製造用CADへの統合が可能になります。
 
 > 関連情報:
-> - Blender→Rhinoの受け渡し: `../rhino/blender-mesh-to-rhino.md`  
-> - 編集の基本方針: `history-and-editing.md` / `parameter-design.md`
+> - Blender→Rhinoの受け渡し: [Blenderメッシュ→Rhino（読み込みと破綻予防）](/rhino/blender-mesh-to-rhino)  
+> - 編集の基本方針: [Grasshopperの「履歴」と後編集（壊れにくい作り方）](/grasshopper/history-and-editing) / [パラメータ設計（壊れにくい入力の作り方）](/grasshopper/parameter-design)
 
 Q: 参照メッシュからパラメトリックなBrepモデルを生成する際、守るべき設計の基本原則（ワークフローの標準）を教えてください。
 
@@ -89,7 +89,7 @@ A: 抽出された曲線は細かなセグメントの集合であることが�
 
 1. **Rebuild Curve**: 制御点数を指定した数（例：12点や20点）に揃え、曲線の構造を均一にします。
 2. **Fit Curve**: 指定した許容誤差の範囲内で、元の形状を維持しつつ滑らかな曲線に近似します。
-3. **SimplifyCrv（Rhinoコマンド）**: 直線・円弧として扱える部分を「真のLine/Arc」に置き換え、連続する同一直線/同一円弧の結合なども行います（Rhinoヘルプ: https://docs.mcneel.com/rhino/7/help/en-us/commands/simplifycrv.htm ）。※これはData Treeの`Simplify`とは別物です。
+3. **SimplifyCrv（Rhinoコマンド）**: 直線・円弧として扱える部分を「真のLine/Arc」に置き換え、連続する同一直線/同一円弧の結合なども行います（参考: [Rhino Help: SimplifyCrv](https://docs.mcneel.com/rhino/7/help/en-us/commands/simplifycrv.htm)）。※これはData Treeの`Simplify`とは別物です。
 
 Q: 断面曲線を整える（リビルドやフィッティングを行う）際、後段のサーフェス作成工程を失敗させないための重要な指針は何ですか？
 

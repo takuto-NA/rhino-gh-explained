@@ -53,14 +53,14 @@ A: 以下のリソースを参照します：
 
 **Q: `Evaluate Length`の内部実装の根拠はどこにありますか？**
 
-A: `Evaluate Length`は内部的に「弧長を許容誤差内で評価し、指定距離に対応するパラメータを求める」系のAPIに相当します。NURBSでは弧長が一般に解析的に出ないため、これらは **tolerance を指定する数値近似**として設計されています。以下のAPIを参照します：
+A: `Evaluate Length`は内部的に「弧長を許容誤差内で評価し、指定距離に対応するパラメータを求める」系のAPIに相当します。NURBSでは弧長が一般に解析的に出ないため、これらは **tolerance を指定する数値近似**として設計されています。
+
+根拠として参照するのは、原則 **公式の RhinoCommon API** です（URLは将来変わる可能性があるため、メソッド名で検索できる形を優先します）。
 
 - **`Rhino.Geometry.Curve.GetLength`（fractionalTolerance つき）**
-  - URL: `https://softcn.store/docs/rhino/html/M_Rhino_Geometry_Curve_GetLength_3.htm`
-  - メモ: 上記はRhinoCommon APIリファレンスのミラー（公式サイト側のURLが変わることがあるため、メソッド名でも検索推奨）
+  - 探し方: RhinoCommon API（英語/日本語どちらでも可）で `Curve.GetLength` / `fractionalTolerance` で検索
 - **`Rhino.Geometry.Curve.LengthParameter`（fractionalTolerance つき）**
-  - URL: `https://softcn.store/docs/rhino/html/M_Rhino_Geometry_Curve_LengthParameter.htm`
-  - メモ: 上記はRhinoCommon APIリファレンスのミラー（公式サイト側のURLが変わることがあるため、メソッド名でも検索推奨）
+  - 探し方: RhinoCommon APIで `Curve.LengthParameter` / `fractionalTolerance` で検索
 
 **Q: NURBSの数学的基礎を学ぶための参考書はありますか？**
 

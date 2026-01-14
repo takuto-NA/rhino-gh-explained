@@ -9,8 +9,8 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "description": "",
+  "license": "MIT",
+  "description": "RhinoおよびGrasshopperの操作手順と設計上の要点を整理した技術ドキュメント（VitePress）です。",
   "engines": {
     "node": ">=20"
   },

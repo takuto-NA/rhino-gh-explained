@@ -4,7 +4,16 @@ VitePressで構築されたRhinoおよびGrasshopperの技術解説サイトで�
 
 ## 公開サイト
 
-- **Rhino / Grasshopper 技術解説**: https://takuto-na.github.io/rhino-gh-explained/
+- **Rhino / Grasshopper 技術解説**: `https://takuto-na.github.io/rhino-gh-explained/`
+
+## 最短の読み方（初見向け）
+
+「何から読めばいいか分からない」を最優先で潰すために、サイト側のトップに **読む順番** を用意しています。
+
+- **サイトトップ（読む順番）**: `docs/index.md`（公開サイトではホーム）
+- **Rhinoの入口**: `docs/rhino/index.md`
+- **Grasshopperの入口**: `docs/grasshopper/index.md`
+- **公式リンク集**: `docs/references.md`
 
 ## ローカル開発
 
@@ -35,4 +44,4 @@ npm run docs:build
 
 ## 執筆方針（文章のルール）
 
-記事のトーン・出典・ファクトチェック方針は `WRITING_GUIDE.md` を参照してください（サイト側: `docs/writing-guidelines.md`）。
+記事のトーン・出典・ファクトチェック方針は `docs/writing-guidelines.md` を参照してください（GitHubで要点だけ見たい場合は `WRITING_GUIDE.md`）。

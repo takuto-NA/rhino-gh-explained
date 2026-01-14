@@ -36,7 +36,8 @@ order: 10
 
 文章のルール（出典明記、ファクトチェック、口語の抑制、アルゴリズム/数式/再現手順による裏付け）は、次を参照してください。
 
-- `WRITING_GUIDE.md`（サイト側: `docs/writing-guidelines.md`）
+- **正**: `docs/writing-guidelines.md`（サイト内で表示されるガイド）
+- 補助: `WRITING_GUIDE.md`（GitHubで要点だけ見たい場合のショート版）
 
 ### コミット前チェック（要点）
 
