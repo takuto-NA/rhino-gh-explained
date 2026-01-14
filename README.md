@@ -1,10 +1,10 @@
-# Rhino & Grasshopper 解説
+# Rhino / Grasshopper 技術解説
 
-VitePressで構築されたRhinoとGrasshopperの解説サイトです。
+VitePressで構築されたRhinoおよびGrasshopperの技術解説サイトです。
 
 ## 公開サイト
 
-- **Rhino & Grasshopper 解説**: https://takuto-na.github.io/rhino-gh-explained/
+- **Rhino / Grasshopper 技術解説**: https://takuto-na.github.io/rhino-gh-explained/
 
 ## ローカル開発
 

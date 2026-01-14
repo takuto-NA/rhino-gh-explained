@@ -2,7 +2,7 @@
 order: 40
 ---
 
-# Mermaidで作るGrasshopper（GH）配線図
+# MermaidによるGrasshopper（GH）配線図の作成
 
 Q: Mermaidを使用してGrasshopperの配線図を記述する目的と、基本的なルールは何ですか？
 

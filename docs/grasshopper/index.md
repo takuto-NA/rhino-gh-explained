@@ -30,7 +30,7 @@ A: 以下の順序で読むことを推奨します：
 
 **Q: Rhino側のワークフローとの関係は？**
 
-A: Rhinoでの「汚いメッシュ→編集可能な形→製造/解析」全体像は、`../rhino/workflow-mesh-to-manufacturable.md`にまとめています。
+A: Rhinoでの「品質の低いメッシュ→編集可能な形状→製造/解析」全体像は、`../rhino/workflow-mesh-to-manufacturable.md`にまとめています。
 
 **Q: 参考資料はどこにありますか？**
 

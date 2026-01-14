@@ -5,8 +5,8 @@ import { sidebar } from './config/sidebar'
 
 export default withMermaid(defineConfig({
   lang: 'ja-JP',
-  title: "Rhino & Grasshopper 解説",
-  description: "RhinoとGrasshopperの使い方を解説するサイトです.",
+  title: "Rhino / Grasshopper 技術解説",
+  description: "RhinoおよびGrasshopperの操作手順と設計上の要点を整理した技術ドキュメントです。",
 
   head: [
     // MathJax v3: SPA(ページ遷移)の再レンダリングは theme 側で typesetPromise() を呼ぶ

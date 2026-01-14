@@ -69,7 +69,7 @@ function createSectionGroup(section: 'rhino' | 'grasshopper', label: string): Si
     })
 
   const items: DefaultTheme.SidebarItem[] = [
-    { text: 'はじめに', link: `/${section}/` },
+    { text: '概要', link: `/${section}/` },
     ...pages.map((p) => ({ text: p.title, link: p.link }))
   ]
 

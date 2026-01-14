@@ -2,24 +2,24 @@
 layout: home
 
 hero:
-  name: Rhino & Grasshopper 解説
-  text: RhinoとGrasshopperの使い方を分かりやすく解説します。
+  name: Rhino / Grasshopper 技術解説
+  text: RhinoおよびGrasshopperの操作手順と設計上の要点を解説します。
   tagline: モデリングからアルゴリズミックデザインまで
   actions:
     - theme: brand
-      text: はじめる
+      text: ドキュメントを読む
       link: /rhino/
     - theme: alt
-      text: Grasshopperを見る
+      text: Grasshopper（GH）へ
       link: /grasshopper/
 
 features:
   - title: Rhino 基礎
-    details: 3Dモデリングの基本から応用までをカバーします。
+    details: 3Dモデリングの基本から応用までを解説します。
   - title: Grasshopper 入門
-    details: ビジュアルプログラミングによるデザインの自動化を学びます。
+    details: ビジュアルプログラミングによる設計自動化の要点を解説します。
   - title: 実践チュートリアル
-    details: 実際の制作に役立つワークフローを紹介します。
+    details: 実務に利用できるワークフローを紹介します。
 ---
 
 **Q: このサイトの目的は？**
@@ -33,3 +33,9 @@ A: このドキュメント全体で参照すべき公式ドキュメントと�
 **Q: Fusion 360から来た場合、どこから読むべきですか？**
 
 A: Rhinoの設計思想の違いと戸惑いポイントを先に把握してください。: [Fusion 360ユーザー向け: Rhinoの違いと戸惑いポイント（移行チェックリスト）](/rhino/fusion360-to-rhino)
+
+**Q: Rhinoでよく使うコマンドや入力の要点を、まとめて参照できるページはありますか？**
+
+A: 以下を参照してください。
+
+- [Rhino コマンド早見表（入力・よく使う・覚えるべき）](/rhino/commands)

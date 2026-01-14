@@ -126,6 +126,6 @@ A: 目安として、以下で切り分けると破綻しにくいです。
 
 ## 次に読むべきページ
 
-- [ワークフロー: 汚いメッシュ → 編集可能な曲面 → 製造/解析へ（Rhino 8）](/rhino/workflow-mesh-to-manufacturable)
+- [ワークフロー：品質の低いメッシュ → 編集可能な曲面 → 製造/解析（Rhino 8）](/rhino/workflow-mesh-to-manufacturable)
 - [単位・公差・メッシュ健全性（製造に入る前のチェック）](/rhino/units-tolerance-and-mesh-health)
 
