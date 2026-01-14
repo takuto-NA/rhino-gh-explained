@@ -28,3 +28,7 @@ npm run docs:build
 ## ページ追加
 
 `docs/rhino/` または `docs/grasshopper/` に Markdown を追加すると、サイドバーは自動で更新されます（詳細は `CONTRIBUTING.md`）。
+
+## 執筆方針（文章のルール）
+
+記事のトーン・出典・ファクトチェック方針は `WRITING_GUIDE.md` を参照してください（サイト側: `docs/writing-guidelines.md`）。
