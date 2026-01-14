@@ -2,6 +2,10 @@
 
 VitePressで構築されたRhinoとGrasshopperの解説サイトです。
 
+## 公開サイト
+
+- **Rhino & Grasshopper 解説**: https://takuto-na.github.io/rhino-gh-explained/
+
 ## ローカル開発
 
 推奨Node.js: **20.x**（GitHub Actions と合わせるため。20以上で動作します）
