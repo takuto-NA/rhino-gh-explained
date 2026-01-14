@@ -1,9 +1,12 @@
 # Grasshopper 解説
 
-Grasshopperは、Rhino上で動作するビジュアルプログラミングツールです。パラメトリックなモデル作成やアルゴリズミックデザインを可能にします。
+**Q: Grasshopperとは何ですか？**
 
-## コンテンツ
+A: Grasshopperは、Rhino上で動作するビジュアルプログラミングツールです。パラメトリックなモデル作成やアルゴリズミックデザインを可能にします。
 
+**Q: このセクションのコンテンツは？**
+
+A: 以下の内容を扱います：
 - `history-and-editing.md`: Grasshopperの「履歴」と後編集（壊れにくい作り方）
 - `parameter-design.md`: パラメータ設計（壊れにくい入力の作り方）
 - `mesh-reference-to-brep-rebuild.md`: 参照メッシュ→曲線→NURBS/Brep（壊れにくい再構築の型）
@@ -15,8 +18,9 @@ Grasshopperは、Rhino上で動作するビジュアルプログラミングツ�
 - `point-to-curve-nurbs-interpolation-notes.md`: 付録: NURBS補間のアルゴリズム要点と制御点抽出
 - `diagrams.md`: MermaidでGH配線図（ポート/グループ）を描く仕様とテンプレ
 
-## おすすめの読み順（Blender等のメッシュ→最終Brep）
+**Q: おすすめの読み順は？（Blender等のメッシュ→最終Brep）**
 
+A: 以下の順序で読むことを推奨します：
 - `history-and-editing.md`（参照とベイク、不安定な参照の回避）
 - `parameter-design.md`（入力設計：基準/ランドマーク/断面）
 - `mesh-reference-to-brep-rebuild.md`（参照メッシュから曲線/面/Brepへ組み直す）
@@ -24,12 +28,10 @@ Grasshopperは、Rhino上で動作するビジュアルプログラミングツ�
 - `point-to-curve.md`（点列→Curveの選定基準：概要）
   - 詳細: `point-to-curve-interpolate.md` / `point-to-curve-fit-polyline.md` / `point-to-curve-line-arc-dxf.md`
 
-## Rhino側のワークフローとの関係
+**Q: Rhino側のワークフローとの関係は？**
 
-Rhinoでの「汚いメッシュ→編集可能な形→製造/解析」全体像は、こちらにまとめています。
+A: Rhinoでの「汚いメッシュ→編集可能な形→製造/解析」全体像は、`../rhino/workflow-mesh-to-manufacturable.md`にまとめています。
 
-- `../rhino/workflow-mesh-to-manufacturable.md`
+**Q: 参考資料はどこにありますか？**
 
-## 参考資料
-
-公式ドキュメントやAPIリファレンスについては、[参考資料・公式ドキュメント](/references)を参照してください。
+A: 公式ドキュメントやAPIリファレンスについては、[参考資料・公式ドキュメント](/references)を参照してください。

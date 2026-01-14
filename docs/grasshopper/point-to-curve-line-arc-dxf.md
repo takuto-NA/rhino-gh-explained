@@ -4,7 +4,9 @@ order: 39
 
 # 直線・円弧（LINE/ARC）で点列を再現する（セグメント化とDXF）
 
-このページは、`point-to-curve.md` の詳細版です（CAD/CAM・DXF向けに「直線/円弧」へ落とす話に集中します）。
+**Q: このページの目的は？**
+
+A: このページは、`point-to-curve.md` の詳細版です（CAD/CAM・DXF向けに「直線/円弧」へ落とす話に集中します）。
 
 ## LINE（直線）とARC（円弧）で構成された幾何学セグメントで点列を再現する
 
@@ -56,21 +58,26 @@ A: 以下の手順で進めます：
 
 ## 別解: RhinoCommonの `Curve.ToArcsAndLines` を使うと「一発で」LINE/ARC化できる
 
-質問にあるとおり、RhinoCommonには `Curve.ToArcsAndLines(...)` があり、これは **曲線を「直線＋円弧のPolyCurve」に変換**してくれます。
+**Q: RhinoCommonの `Curve.ToArcsAndLines` を使うとどうなりますか？**
 
-- **結論**: スクリプト（Python/C#）を使えるなら、ページ冒頭の「曲率→境界検出→Fit」の流れを省略して、**まず `ToArcsAndLines` を試すのが最短**になることがあります。
+A: RhinoCommonには `Curve.ToArcsAndLines(...)` があり、これは **曲線を「直線＋円弧のPolyCurve」に変換**してくれます。
 
-### それでもこのページで必須にしていない理由（使い分け）
+**Q: `ToArcsAndLines` を使うメリットは？**
 
-- **スクリプト前提（ただし“標準扱い”の範囲）**: `ToArcsAndLines` はRhinoCommon APIなので、Grasshopperでは通常 **Python/C#コンポーネント経由**になります。  
+A: スクリプト（Python/C#）を使えるなら、ページ冒頭の「曲率→境界検出→Fit」の流れを省略して、**まず `ToArcsAndLines` を試すのが最短**になることがあります。
+
+**Q: それでもこのページで必須にしていない理由（使い分け）は？**
+
+A: 以下の理由があります：
+- **スクリプト前提（ただし"標準扱い"の範囲）**: `ToArcsAndLines` はRhinoCommon APIなので、Grasshopperでは通常 **Python/C#コンポーネント経由**になります。  
   - ※このドキュメントでは「Python/C#コンポーネント（外部ライブラリ不要）」は**標準コンポーネント扱い**とします。
-- **“フィット”ではなく“近似分解”**: 出力は「許容誤差（tolerance）と角度許容差（angleTolerance）を満たすように分解した結果」です。  
+- **"フィット"ではなく"近似分解"**: 出力は「許容誤差（tolerance）と角度許容差（angleTolerance）を満たすように分解した結果」です。  
   - DXFに落とす用途では大抵これで十分ですが、「セグメント境界を自分の規則で決めたい」「最小二乗で直線/円弧を当てたい」なら、既存の `Fit Line` / `Fit Arc` ワークフローの方がコントロールしやすいです。
 - **パラメータ調整が結果を支配する**: `tolerance / angleTolerance / minLength / maxLength` の設定で、セグメント数・形状が大きく変わります。運用ルール（公差や最小長）を決めておかないと結果が不安定になりがちです。
 
-### 参考（API仕様）
+**Q: `Curve.ToArcsAndLines` のAPI仕様は？**
 
-RhinoCommonの `Curve.ToArcsAndLines` は以下の説明です：
+A: RhinoCommonの `Curve.ToArcsAndLines` は以下の説明です：
 
 - `Curve.ToArcsAndLines(...)`: 曲線を円弧セグメントからなるPolyCurveに変換し、**ほぼ直線の区間は直線セグメントにする**  
 - パラメータ: `tolerance`, `angleTolerance`, `minimumLength`, `maximumLength`
@@ -219,9 +226,9 @@ A: 以下を参考にします：
 - 曲率の変化率（曲率の微分）が大きい箇所をセグメント境界として検出
 - GrasshopperのPythonコンポーネント（`Script`コンポーネント）で曲率分析と自動分割を実装することも可能。RhinoCommonのAPIを使用して、曲率計算とセグメント分割のロジックを記述する
 
-### 曲率の可視化方法
+**Q: Grasshopperで曲線の曲率を可視化する方法は？**
 
-Grasshopperで曲線の曲率を可視化するには、以下の方法があります。
+A: 以下の方法があります。
 
 **方法1: Curvature Graphコンポーネント（標準機能）**
 
@@ -247,9 +254,9 @@ Grasshopperで曲線の曲率を可視化するには、以下の方法があり
    - X軸: 曲線のパラメータ値（0〜1）
    - Y軸: 曲率の大きさ
 
-**曲率変化の可視化**
+**Q: 曲率変化の可視化方法は？**
 
-曲率の変化率（曲率の微分）を可視化するには：
+A: 曲率の変化率（曲率の微分）を可視化するには：
 
 1. `Divide Curve`で曲線を細かく分割
 2. 各点で曲率を計算
@@ -257,7 +264,9 @@ Grasshopperで曲線の曲率を可視化するには、以下の方法があり
 4. 差分の大きさを`Vector Display`や`Graph Mapper`で可視化
    - 差分が大きい箇所 = 曲率が急変する箇所 = セグメント境界の候補
 
-**実用的なワークフロー例**:
+**Q: 実用的なワークフロー例は？**
+
+A: 以下のワークフローがあります：
 
 ```
 Curve → Divide Curve（細かく分割） → Curvature（各点で計算） → 
@@ -265,7 +274,9 @@ Curve → Divide Curve（細かく分割） → Curvature（各点で計算） �
 → [曲率変化の可視化] 隣接点間の差分計算 → Graph Mapper / Vector Display
 ```
 
-### Grasshopperでの実装例
+**Q: Grasshopperでの実装例は？**
+
+A: 以下の方法があります：
 
 **方法1（直接分割）**:
 ```
@@ -276,8 +287,6 @@ Curve → Divide Curve（細かく分割） → Curvature（各点で計算） �
 ```
 点列 → Interpolate/Fit Curve → Curvature分析 → セグメント境界検出 → Split Curve → 各セグメントに Fit Line / Fit Arc → Join Curves
 ```
-
-### 適用場面
 
 **Q: どのような場面で使用しますか？**
 
@@ -349,7 +358,9 @@ A: 以下の場面で推奨されます：
 - 図面としての品質を重視する場合
 - **ほとんどの実務ケースで推奨**
 
-#### DXF出力時の実装上の注意点
+**Q: DXF出力時の実装上の注意点は？**
+
+A: 以下の点に注意します：
 
 **許容誤差の設定**:
 - **直線フィット**: `Fit Line`の許容誤差は、点列のノイズレベルと形状の複雑さを考慮して設定
@@ -370,13 +381,18 @@ A: 以下の場面で推奨されます：
   - DXFでは接線連続は必須ではないが、図面品質を向上させる
 - **接続点の重複**: DXF出力時に、接続点が重複しないように注意（同一座標の点が複数あると、CADで問題になる場合がある）
 
-**PythonでのDXF出力時の実装ヒント**:
+**Q: PythonでのDXF出力時の実装ヒントは？**
+
+A: 以下の点に注意します：
 - RhinoCommonの`Line`と`Arc`オブジェクトを、DXFの`LINE`/`ARC`エンティティに直接マッピングできる
 - `Arc`の開始角度・終了角度を正しく計算する（DXFでは反時計回りが標準）
 - 閉じた曲線の場合、最後のセグメントと最初のセグメントの接続を確認
 - DXFの単位系（`$INSUNITS`）を設定して、CADでのスケールが正しく表示されるようにする
 
-**実用的なワークフロー（DXF出力向け）**:
+**Q: 実用的なワークフロー（DXF出力向け）は？**
+
+A: 以下のワークフローがあります：
+
 ```
 点列 → Interpolate/Fit Curve（滑らかな曲線化） → 
 → Divide Curve（細かく分割） → Curvature（曲率計算） → 
