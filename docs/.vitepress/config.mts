@@ -6,7 +6,11 @@ import { sidebar } from './config/sidebar'
 export default withMermaid(defineConfig({
   lang: 'ja-JP',
   title: "Rhino & Grasshopper 解説",
-  description: "RhinoとGrasshopperの使い方を解説するサイトです。",
+  description: "RhinoとGrasshopperの使い方を解説するサイトです.",
+
+  markdown: {
+    math: true
+  },
 
   // Windows 環境で build 時にページチャンク解決に失敗するケースがあるため、
   // realpath によるパス変換を避けて、Rollup の facadeModuleId と一致させる
