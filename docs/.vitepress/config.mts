@@ -16,7 +16,12 @@ export default withMermaid(defineConfig({
   },
 
   head: [
-    ['script', { type: 'text/javascript', id: 'MathJax-script', async: '', src: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js' }]
+    ['script', { 
+      type: 'text/javascript', 
+      id: 'MathJax-script', 
+      async: '', 
+      src: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js' 
+    }]
   ],
 
   // Windows 環境で build 時にページチャンク解決に失敗するケースがあるため、
@@ -32,19 +37,9 @@ export default withMermaid(defineConfig({
   base: '/rhino-gh-explained/',
 
   // Mermaid: ```mermaid フェンスをSVGとしてレンダリング
-  // できるだけVitePressのCSS変数を使い、ライト/ダークで破綻しにくくする
+  // MermaidはCSS変数を直接サポートしていないため、デフォルトテーマを使用
   mermaid: {
-    theme: 'base',
-    themeVariables: {
-      fontFamily: 'var(--vp-font-family-base)',
-      background: 'transparent',
-      primaryColor: 'var(--vp-c-bg-soft)',
-      primaryTextColor: 'var(--vp-c-text-1)',
-      primaryBorderColor: 'var(--vp-c-divider)',
-      lineColor: 'var(--vp-c-text-2)',
-      secondaryColor: 'var(--vp-c-bg-alt)',
-      tertiaryColor: 'var(--vp-c-bg)'
-    },
+    theme: 'default',
     flowchart: {
       curve: 'linear'
     }
