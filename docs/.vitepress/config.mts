@@ -2,6 +2,7 @@ import { defineConfig } from 'vitepress'
 import { withMermaid } from 'vitepress-plugin-mermaid'
 import { nav } from './config/nav'
 import { sidebar } from './config/sidebar'
+import mathjax3 from 'markdown-it-mathjax3'
 
 export default withMermaid(defineConfig({
   lang: 'ja-JP',
@@ -9,8 +10,14 @@ export default withMermaid(defineConfig({
   description: "RhinoとGrasshopperの使い方を解説するサイトです.",
 
   markdown: {
-    math: true
+    config: (md) => {
+      md.use(mathjax3)
+    }
   },
+
+  head: [
+    ['script', { type: 'text/javascript', id: 'MathJax-script', async: '', src: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js' }]
+  ],
 
   // Windows 環境で build 時にページチャンク解決に失敗するケースがあるため、
   // realpath によるパス変換を避けて、Rollup の facadeModuleId と一致させる
