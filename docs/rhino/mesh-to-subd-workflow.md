@@ -1,5 +1,5 @@
 ---
-order: 30
+order: 20
 ---
 
 # メッシュ原型 → SubDへ（QuadRemeshを軸に再構築）

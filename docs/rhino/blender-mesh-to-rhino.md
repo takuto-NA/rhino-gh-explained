@@ -1,5 +1,5 @@
 ---
-order: 14
+order: 12
 ---
 
 # Blenderのメッシュ（.blend）→ Rhinoへ（安全なデータ受け渡し）

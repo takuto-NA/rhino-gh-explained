@@ -18,6 +18,13 @@ A: 「後から変更できる形」を作るために、Grasshopperの **壊れ
 - [参照メッシュからNURBS/Brepへ再構築（Grasshopperの"壊れにくい型"）](/grasshopper/mesh-reference-to-brep-rebuild)
 - [実例: メッシュ原型→編集可能な外装（最小GH構成）](/grasshopper/parametric-shell-example)
 
+## 3Dプリント目的でGHを使う場合（入口）
+
+Rhino側の最短ルート（肉厚→出力→スライサー検証）に対して、Grasshopperは「参照メッシュから、壊れにくい曲線/面/Brepを組む」局面で効きます。
+
+- **全体像（Rhino側）**: [ワークフロー：品質の低いメッシュ → 編集可能な曲面 → 製造/解析（Rhino 8）](/rhino/workflow-mesh-to-manufacturable)
+- **GH側の型**: [参照メッシュからNURBS/Brepへ再構築（Grasshopperの"壊れにくい型"）](/grasshopper/mesh-reference-to-brep-rebuild)
+
 ## 用途別リンク
 
 - **点列からCurveを作る（選び方）**: [点列からCurveを作る（選定基準：概要）](/grasshopper/point-to-curve)

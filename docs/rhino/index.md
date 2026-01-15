@@ -3,6 +3,17 @@
 > - はじめに（読む順番）: [ホーム](/)
 > - 公式リンク集: [参考資料・公式ドキュメント](/references)
 
+## 最短ルート（3Dプリントで失敗しない）
+
+参照メッシュがあり、「まずプリント可能なデータに落とす」ことが目的なら、以下の順序で進めます。
+
+- [ワークフロー：品質の低いメッシュ → 編集可能な曲面 → 製造/解析（Rhino 8）](/rhino/workflow-mesh-to-manufacturable)
+- [単位・公差・メッシュ健全性（製造に入る前のチェック）](/rhino/units-tolerance-and-mesh-health)
+- [メッシュ原型 → SubDへ（QuadRemeshを軸に再構築）](/rhino/mesh-to-subd-workflow)
+- [可変肉厚シェル（破綻しにくい順序）](/rhino/variable-thickness-shell)
+- [分割・首開口・後加工穴](/rhino/splitting-and-openings)
+- [エクスポート（STL/3MF）と最終検証（スライサーでの検証）](/rhino/export-and-validation)
+
 **Q: Rhinoとは何ですか？**
 
 A: Rhino（Rhinoceros）は、建築、プロダクトデザイン、ジュエリーデザインなど、幅広い分野で使用されている高精度な3Dモデリングソフトです。

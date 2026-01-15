@@ -3,11 +3,14 @@ layout: home
 
 hero:
   name: Rhino / Grasshopper 技術解説
-  text: RhinoおよびGrasshopperの操作手順と設計上の要点を解説します。
-  tagline: モデリングからアルゴリズミックデザインまで
+  text: 参照メッシュから編集可能な形状へ再構築し、3Dプリントに耐えるデータに落とすための要点を解説します。
+  tagline: Mesh→SubD/Brep→肉厚→出力→スライサー検証
   actions:
     - theme: brand
-      text: ドキュメントを読む
+      text: 3Dプリント最短ルート
+      link: /rhino/workflow-mesh-to-manufacturable
+    - theme: alt
+      text: Rhinoから読む
       link: /rhino/
     - theme: alt
       text: Grasshopper（GH）へ
@@ -15,17 +18,19 @@ hero:
 
 features:
   - title: Rhino 基礎
-    details: 3Dモデリングの基本から応用までを解説します。
+    details: メッシュ/公差/形式判断から、製造向けの破綻回避までを扱います。
   - title: Grasshopper 入門
-    details: ビジュアルプログラミングによる設計自動化の要点を解説します。
+    details: 壊れにくい入力設計と、参照メッシュからの再構築の型を扱います。
   - title: 実践チュートリアル
-    details: 実務に利用できるワークフローを紹介します。
+    details: 「プリント可能」に落とすまでの手順と判断基準を紹介します。
 ---
 
 ## はじめに（最短の読み方）
 
 初見の人が迷わないように、このサイトは **「読む順番」** を用意しています。必要なルートだけ辿ってください。
 
+- **3Dプリントが主目的（迷ったらこれ）**: 最短で「失敗しない出力」まで到達する一本道です。  
+  - [ワークフロー：品質の低いメッシュ → 編集可能な曲面 → 製造/解析（Rhino 8）](/rhino/workflow-mesh-to-manufacturable) → [単位・公差・メッシュ健全性（製造に入る前のチェック）](/rhino/units-tolerance-and-mesh-health) → [可変肉厚シェル（破綻しにくい順序）](/rhino/variable-thickness-shell) → [エクスポート（STL/3MF）と最終検証（スライサーでの検証）](/rhino/export-and-validation)
 - **Rhino中心で進めたい**: まずは「全体像」と「事故を防ぐ前提」を押さえます。  
   - [ワークフロー：品質の低いメッシュ → 編集可能な曲面 → 製造/解析（Rhino 8）](/rhino/workflow-mesh-to-manufacturable) → [単位・公差・メッシュ健全性（製造に入る前のチェック）](/rhino/units-tolerance-and-mesh-health)
 - **Grasshopper中心で進めたい**: まずは「壊れにくい作り方」を押さえます。  
