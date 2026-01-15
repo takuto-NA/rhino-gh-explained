@@ -88,6 +88,7 @@ export const sidebar: DefaultTheme.Sidebar = {
     {
       text: 'ガイド',
       items: [
+        { text: '前提・用語（最初に揃えること）', link: '/prerequisites-and-glossary' },
         { text: '執筆方針（文章のルール）', link: '/writing-guidelines' }
       ]
     },
