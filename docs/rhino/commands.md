@@ -75,7 +75,7 @@ A: 本リポジトリでは、次の組み合わせが繰り返し登場しま�
 
 | 目的 | コマンド例 | 関連ページ |
 | --- | --- | --- |
-| **輪郭を作る** | `Rectangle` / `Circle` / `Line` / `InterpCrv` / `Point` | [分割・首開口・後加工穴](/rhino/splitting-and-openings), [コネクタ設計とCAD連携](/rhino/connectors-and-cad-integration), [FDM設計ルール](/rhino/fdm-design-rules) |
+| **輪郭を作る** | `Rectangle` / `Circle` / `Line` / `InterpCrv` / `CurveThroughPt` / `Point` | [分割・首開口・後加工穴](/rhino/splitting-and-openings), [コネクタ設計とCAD連携](/rhino/connectors-and-cad-integration), [FDM設計ルール](/rhino/fdm-design-rules) |
 | **押し出す** | `ExtrudeCrv` | [分割・首開口・後加工穴](/rhino/splitting-and-openings), [コネクタ設計とCAD連携](/rhino/connectors-and-cad-integration) |
 | **合流/切り抜き** | `BooleanUnion` / `BooleanDifference` | [分割・首開口・後加工穴](/rhino/splitting-and-openings), [コネクタ設計とCAD連携](/rhino/connectors-and-cad-integration) |
 | **オフセット/フランジ** | `Offset` / `OffsetSrf` / `Loft` | [分割・首開口・後加工穴](/rhino/splitting-and-openings), [コネクタ設計とCAD連携](/rhino/connectors-and-cad-integration) |
