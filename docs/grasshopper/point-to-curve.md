@@ -66,6 +66,7 @@ A: 以下の3点を確認することで、生成後のトラブル（うねり�
 - 付録（NURBS補間の内部・制御点抽出）: [`point-to-curve-nurbs-interpolation-notes.md`](./point-to-curve-nurbs-interpolation-notes)
 - Fit Curve / Polyline: [`point-to-curve-fit-polyline.md`](./point-to-curve-fit-polyline)
 - 直線・円弧（LINE/ARC）・DXF: [`point-to-curve-line-arc-dxf.md`](./point-to-curve-line-arc-dxf)
+- Rhino側でCSV点データを扱う（Curve/地形/場）: [/rhino/csv-points-to-curve](/rhino/csv-points-to-curve)
 
 ## 典型ワークフロー（点列→Curveを安定させる）
 
