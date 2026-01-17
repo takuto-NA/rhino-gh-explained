@@ -20,6 +20,8 @@ Q: 点列を扱う際、すべての点を必ず通過させたい場合はど�
 
 A: **Interpolate（補間）**を使用します。指定したすべての点を通る滑らかなNURBS曲線が必要な場合に適しています。
 
+（Rhinoコマンドで同等のことをする場合は、点をクリックして作るなら `InterpCrv`、CSV等で読み込んで「点オブジェクト」がすでにあるなら `CurveThroughPt` が対応します。）
+
 Q: 測定データのようにノイズ（ばらつき）を含む点列から、滑らかな曲線を作りたい場合は？
 
 A: **Fit Curve（近似）**を使用します。すべての点を通すのではなく、全体の傾向に合わせた「もっともらしい曲線」を生成します。許容誤差を調整することで、滑らかさと精度のバランスを制御できます。
@@ -64,6 +66,7 @@ A: 以下の3点を確認することで、生成後のトラブル（うねり�
 - 付録（NURBS補間の内部・制御点抽出）: [`point-to-curve-nurbs-interpolation-notes.md`](./point-to-curve-nurbs-interpolation-notes)
 - Fit Curve / Polyline: [`point-to-curve-fit-polyline.md`](./point-to-curve-fit-polyline)
 - 直線・円弧（LINE/ARC）・DXF: [`point-to-curve-line-arc-dxf.md`](./point-to-curve-line-arc-dxf)
+- Rhino側でCSV点データを扱う（Curve/地形/場）: [/rhino/csv-points-to-curve](/rhino/csv-points-to-curve)
 
 ## 典型ワークフロー（点列→Curveを安定させる）
 

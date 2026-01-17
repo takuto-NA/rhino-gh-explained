@@ -55,6 +55,141 @@ PolyCurve result = inputCurve.ToArcsAndLines(
 );
 ```
 
+### Grasshopper「C# Script」コンポーネント（完成版）
+
+Q: GrasshopperのC# Scriptに、そのまま貼り付けて動く形は？
+
+A: 以下は **GHのC# Scriptコンポーネント**で動作する実装例です（入力が未指定の場合はRhinoドキュメントの公差をデフォルトにします）。
+
+- **入力（例）**:
+  - `inputCurveObject`（Curve）: 変換対象の曲線
+  - `linearToleranceObject`（Number, optional）: 線形公差（未指定なら `ModelAbsoluteTolerance`）
+  - `angleToleranceDegreesObject`（Number, optional）: 角度公差（度）。内部でラジアン変換（未指定なら `ModelAngleToleranceRadians`）
+  - `minimumSegmentLengthObject`（Number, optional）: 最小セグメント長
+  - `maximumSegmentLengthObject`（Number, optional）: 最大セグメント長
+- **出力**:
+  - `outputPolyCurve`（PolyCurve）: 直線/円弧に分解されたPolyCurve
+
+```csharp
+// Grasshopper Script Instance
+#region Usings
+using System;
+using System.Linq;
+using System.Collections;
+using System.Collections.Generic;
+using System.Drawing;
+
+using Rhino;
+using Rhino.Geometry;
+
+using Grasshopper;
+using Grasshopper.Kernel;
+using Grasshopper.Kernel.Data;
+using Grasshopper.Kernel.Types;
+#endregion
+
+public class Script_Instance : GH_ScriptInstance
+{
+    #region Notes
+    /* Members:
+        RhinoDoc RhinoDocument
+        GH_Document GrasshopperDocument
+        IGH_Component Component
+        int Iteration
+
+      Methods (Virtual & overridable):
+        Print(string text)
+        Print(string format, params object[] args)
+        Reflect(object obj)
+        Reflect(object obj, string method_name)
+    */
+    #endregion
+
+    // 引数名を記述的な名称に変更しました（x, y 等の廃止）
+    private void RunScript(
+        object inputCurveObject,
+        object linearToleranceObject,
+        object angleToleranceDegreesObject,
+        object minimumSegmentLengthObject,
+        object maximumSegmentLengthObject,
+        ref object outputPolyCurve)
+    {
+        // 1. Curve の取得と検証
+        Curve inputCurve = inputCurveObject as Curve;
+        if (inputCurve == null)
+        {
+            Print("Error: inputCurve に有効なカーブが入力されていません。");
+            return;
+        }
+
+        // 2. Linear Tolerance (距離許容差) の取得
+        // 入力がない、または不正な場合はドキュメントの絶対許容値を使用
+        double linearTolerance = RhinoDocument.ModelAbsoluteTolerance;
+        if (linearToleranceObject != null)
+        {
+            if (!GH_Convert.ToDouble(linearToleranceObject, out linearTolerance, GH_Conversion.Both))
+            {
+                Print("Warning: linearTolerance が数値ではありません。ドキュメント設定値を使用します。");
+            }
+        }
+
+        // 3. Angle Tolerance (角度許容差) の取得とラジアン変換
+        // ユーザーは度数法(Degree)で入力することを想定し、内部でラジアンに変換します
+        double angleToleranceDegrees = 0.0;
+        double angleToleranceRadians = RhinoDocument.ModelAngleToleranceRadians;
+
+        if (angleToleranceDegreesObject != null &&
+            GH_Convert.ToDouble(angleToleranceDegreesObject, out angleToleranceDegrees, GH_Conversion.Both))
+        {
+            // 度数法をラジアンに変換
+            angleToleranceRadians = RhinoMath.ToRadians(angleToleranceDegrees);
+        }
+        else
+        {
+            // 入力がない場合はドキュメント設定値を使用（ログに出力）
+            Print($"Note: angleToleranceDegrees が指定されていないため、ドキュメント設定値 ({RhinoMath.ToDegrees(angleToleranceRadians):F1}度) を使用します。");
+        }
+
+        // 4. Minimum Segment Length (最小セグメント長) の取得
+        double minimumSegmentLength = 0.0;
+        if (minimumSegmentLengthObject != null)
+        {
+            GH_Convert.ToDouble(minimumSegmentLengthObject, out minimumSegmentLength, GH_Conversion.Both);
+        }
+
+        // 5. Maximum Segment Length (最大セグメント長) の取得
+        double maximumSegmentLength = 0.0;
+        if (maximumSegmentLengthObject != null)
+        {
+            GH_Convert.ToDouble(maximumSegmentLengthObject, out maximumSegmentLength, GH_Conversion.Both);
+        }
+
+        // 6. メソッドの実行: ToArcsAndLines
+        // 全てのパラメータを渡して変換を実行します
+        PolyCurve resultPolyCurve = inputCurve.ToArcsAndLines(
+            linearTolerance,
+            angleToleranceRadians,
+            minimumSegmentLength,
+            maximumSegmentLength
+        );
+
+        // 7. 結果の出力
+        if (resultPolyCurve != null)
+        {
+            outputPolyCurve = resultPolyCurve;
+
+            // 参考情報として変換結果の情報を出力（デバッグ用）
+            Print($"Conversion Success: {resultPolyCurve.SegmentCount} segments generated.");
+        }
+        else
+        {
+            Print("Error: 変換に失敗しました。パラメータを調整してください。");
+            outputPolyCurve = null;
+        }
+    }
+}
+```
+
 Q: じゃあ `SimplifyCrv`（Rhinoコマンド）で解決なのでは？
 
 A: **ケースによります。結論として、ここでやりたい「線/円弧への近似分解」の主役は `ToArcsAndLines` で、`SimplifyCrv` は“仕上げ”寄り**です。
