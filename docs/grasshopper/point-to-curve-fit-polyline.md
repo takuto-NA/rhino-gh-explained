@@ -8,6 +8,38 @@ Q: このページの目的は何ですか？
 
 A: 本ページは `point-to-curve.md` の詳細解説として、ノイズを含むデータから曲線を推定する「Fit Curve（近似）」と、角を保持しながら点を結ぶ「Polyline（折れ線）」の使い分けと制御方法について解説します。
 
+```mermaid
+flowchart LR
+  %% ===== Input =====
+  in_Pts((Points))
+
+  %% ===== Choice =====
+  subgraph group_Method["ChooseMethod"]
+    subgraph comp_Fit["FitCurve"]
+      in_F_Pts([Points])
+      in_F_Tol([Tolerance])
+      out_F((Curve))
+    end
+    subgraph comp_Polyline["Polyline"]
+      in_L_Pts([Points])
+      out_L((Curve))
+    end
+  end
+
+  %% ===== Parameters =====
+  out_Tol((Tolerance))
+
+  %% ===== Output =====
+  out_Crv((Curve))
+
+  %% ===== Wires =====
+  in_Pts --> in_F_Pts
+  in_Pts --> in_L_Pts
+  out_Tol --> in_F_Tol
+  out_F --> out_Crv
+  out_L --> out_Crv
+```
+
 ## Fit Curve（近似）：ノイズを含む点列の平滑化
 
 Q: Fit Curveコンポーネントは、どのような仕組みで曲線を生成しますか？

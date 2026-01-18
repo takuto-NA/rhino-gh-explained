@@ -14,6 +14,61 @@ Q: 点列を直線と円弧の組み合わせに変換するには、どのよ�
 
 A: 主に以下の2つのアプローチがあります。用途や精度要件に応じて使い分けます。
 
+```mermaid
+flowchart LR
+  %% ===== Input =====
+  in_Pts((Points))
+
+  %% ===== Common (Recommended) =====
+  subgraph group_NURBS["Recommended(NURBS_First)"]
+    subgraph comp_Interpolate["Interpolate_or_FitCurve"]
+      in_N_Pts([Points])
+      out_N_Crv((Curve))
+    end
+    subgraph comp_ToArcsLines["ToArcsAndLines(RhinoCommon)"]
+      in_T_Crv([Curve])
+      in_T_Tol([Tolerance])
+      in_T_Ang([AngleTol])
+      out_AL((PolyCurve))
+    end
+    subgraph comp_Simplify["SimplifyCrv(Optional)"]
+      in_S([PolyCurve])
+      out_S((PolyCurve))
+    end
+  end
+
+  %% ===== Direct Fit (Alternative) =====
+  subgraph group_Direct["Alternative(Direct_Fit)"]
+    subgraph comp_Segment["Segment(Manual)"]
+      in_Seg([Points])
+      out_SegA((Points[]))
+    end
+    subgraph comp_FitLA["FitLine_FitArc_Join"]
+      in_LA([Points[]])
+      out_LA((PolyCurve))
+    end
+  end
+
+  %% ===== Parameters =====
+  out_Tol((Tolerance))
+  out_Ang((AngleTol))
+
+  %% ===== Output =====
+  out_DXF((DXF_Ready))
+
+  %% ===== Wires =====
+  in_Pts --> in_N_Pts
+  out_N_Crv --> in_T_Crv
+  out_Tol --> in_T_Tol
+  out_Ang --> in_T_Ang
+  out_AL --> in_S
+  out_S --> out_DXF
+
+  in_Pts --> in_Seg
+  out_SegA --> in_LA
+  out_LA --> out_DXF
+```
+
 | アプローチ | 向いているケース | 強み | 弱み |
 | --- | --- | --- | --- |
 | **1：点列を直接セグメント分割してフィット** | 点列がすでに「区間ごとに性質が明確」（直線区間/円弧区間が分かる） | 意図した区間割りを反映しやすい | 区間分割（境界決め）が難しい／ノイズで不安定になりやすい |

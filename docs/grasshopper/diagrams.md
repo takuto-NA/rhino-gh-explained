@@ -73,6 +73,93 @@ flowchart LR
   out_G_p -->|Point[]| in_M_g
 ```
 
+## コンポーネント解説用テンプレ（GHキャンバス風）
+
+Q: 「コンポーネントの説明」に使う場合、どの程度まで配線図を細かく書くべきですか？
+
+A: スクリーンショットの代替ではなく、**説明したい挙動差が出る入力/出力（と型）だけを描く**のを基本にします。
+迷ったら、1つのQ&Aに対して **1図**（多くても3図）に絞ってください。
+
+### テンプレ1：単一コンポーネント（入力→出力）
+
+```mermaid
+flowchart LR
+  %% ===== Inputs =====
+  in_A((A))
+  in_B((B))
+
+  %% ===== Component =====
+  subgraph comp_Target["Component_Name"]
+    port_inA([A])
+    port_inB([B])
+    port_outX((X))
+  end
+
+  %% ===== Wires =====
+  in_A -->|TypeA| port_inA
+  in_B -->|TypeB| port_inB
+  port_outX -->|TypeX| out_X((X))
+```
+
+### テンプレ2：小さなパイプライン（3〜5コンポーネント）
+
+```mermaid
+flowchart LR
+  %% ===== Components =====
+  subgraph comp_Input["Input"]
+    out_In((G))
+  end
+
+  subgraph comp_Core["Core"]
+    in_Core([G])
+    out_Core((G))
+  end
+
+  subgraph comp_Output["Output"]
+    in_Out([G])
+  end
+
+  %% ===== Wires =====
+  out_In -->|Brep| in_Core
+  out_Core -->|Brep| in_Out
+```
+
+### テンプレ3：Inputs集約（左端に整理する）
+
+```mermaid
+flowchart LR
+  %% ===== Inputs Group =====
+  subgraph group_Inputs["Inputs"]
+    subgraph comp_Planes["Planes"]
+      out_Plane((Pln))
+    end
+    subgraph comp_Points["Points"]
+      out_Point((Pt))
+    end
+    subgraph comp_Curves["Curves"]
+      out_Curve((Crv))
+    end
+    subgraph comp_Params["Parameters"]
+      out_Thickness((Thickness_mm))
+    end
+  end
+
+  %% ===== Downstream =====
+  subgraph comp_Target["Target_Operation"]
+    in_Pl([Pln])
+    in_Pt([Pt])
+    in_Cr([Crv])
+    in_T([Thickness_mm])
+    out_Result((G))
+  end
+
+  %% ===== Wires =====
+  out_Plane --> in_Pl
+  out_Point --> in_Pt
+  out_Curve --> in_Cr
+  out_Thickness --> in_T
+```
+
 ## 執筆時のヒントと注意点
 
 Q: Mermaidで配線図を作成する際に、よくある失敗や気をつけるべき点はありますか？
@@ -91,15 +178,10 @@ A: 作り込みすぎず、最低限の「視認性」と「統一感」を狙�
 
 - **方向**: 迷ったら `flowchart LR`（左→右）
 - **ラベル**: コンポーネント名は短く、型はエッジラベルで補う（例: `-->|Point[]|`）
-- **スタイル**: `classDef` と `class` を使って「入力/出力/コンポーネント」を色で区別します
+- **スタイル**: **色指定やスタイル指定には頼らず**、形（角丸/丸）とラベルで判別できる状態を基本にします。
 
 ```mermaid
 flowchart LR
-  %% ===== Styles =====
-  classDef comp fill:#f4f4f4,stroke:#777,stroke-width:1px,color:#111;
-  classDef portIn fill:#ffffff,stroke:#777,stroke-width:1px;
-  classDef portOut fill:#ffffff,stroke:#777,stroke-width:1px;
-
   %% ===== Components =====
   subgraph comp_Move["Move"]
     in_G([G])
@@ -113,10 +195,5 @@ flowchart LR
 
   %% ===== Wires =====
   out_V -->|Vector| in_T
-
-  %% ===== Apply Classes =====
-  class comp_Move,comp_UnitX comp;
-  class in_G,in_T portIn;
-  class out_G,out_V portOut;
 ```
 

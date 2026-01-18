@@ -23,6 +23,39 @@ order: 10
 
 **A:** データの「動的リンク」か「静的固定」かの違いで使い分けます。
 
+```mermaid
+flowchart LR
+  %% Rhino side
+  subgraph rhino_Rhino["Rhino"]
+    rhino_RefObj((RefObject))
+    rhino_BakedObj((BakedObject))
+  end
+
+  %% GH side
+  subgraph gh_Grasshopper["Grasshopper"]
+    subgraph comp_Ref["Reference(Params)"]
+      out_Ref((G))
+    end
+    subgraph comp_Compute["Definition(Compute)"]
+      in_G([G])
+      out_Result((G))
+    end
+    subgraph comp_Preview["Preview"]
+      in_Preview([G])
+    end
+    subgraph comp_Bake["Bake"]
+      in_Bake([G])
+    end
+  end
+
+  %% Wires
+  rhino_RefObj -->|Reference| out_Ref
+  out_Ref --> in_G
+  out_Result --> in_Preview
+  out_Result -->|Bake| in_Bake
+  in_Bake --> rhino_BakedObj
+```
+
 - **参照 (Reference)**: Rhino上のオブジェクトをGHの入力として紐付けます。Rhino側を動かせばGHも即座に更新されますが、面の数や順序（トポロジ）が変わると後段の計算が壊れやすいため注意が必要です。
 - **ベイク (Bake)**: GHの計算結果をRhino上の実体オブジェクトとして書き出します。この瞬間にGHとのリンクは切れます。「造形の骨組みはGHで作るが、最終的な細かい手直しはRhinoで行う」といった、作業の切り替え地点として活用します。
 
@@ -42,6 +75,38 @@ order: 10
 **Q: 左右対称なモデルを効率的に作成し、かつ後から編集しやすくする手法は？**
 
 **A:** **「片側のみを設計し、最後にミラーする」** ワークフローを徹底してください。
+
+```mermaid
+flowchart LR
+  %% Left side only
+  subgraph group_Left["LeftSide_Design(Only)"]
+    subgraph comp_Inputs["Inputs"]
+      out_Inputs((G))
+    end
+    subgraph comp_LeftBuild["Build_Left"]
+      in_L([G])
+      out_Left((Brep_L))
+    end
+  end
+
+  %% Mirror at the end
+  subgraph group_Final["Finalize"]
+    subgraph comp_Mirror["Mirror"]
+      in_M([Brep_L])
+      out_Right((Brep_R))
+    end
+    subgraph comp_Join["Join/Union"]
+      in_JL([Brep_L])
+      in_JR([Brep_R])
+      out_Final((Brep))
+    end
+  end
+
+  out_Inputs --> in_L
+  out_Left --> in_M
+  out_Left --> in_JL
+  out_Right --> in_JR
+```
 
 - **理由**: 制御点や断面曲線が半分で済むため、左右の整合性を気にする必要がなく、編集効率が劇的に向上します。
 - **正中の処理**: 左右を単純に繋ぐと正中で面が重なったり隙間ができたりするため、少しオーバーラップさせてからブーリアン結合するか、正中面上の点に `Set PT` 等で拘束をかけるのが一般的です。
