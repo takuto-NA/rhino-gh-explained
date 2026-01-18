@@ -72,6 +72,13 @@ A: まずは視覚的な分析（ハイライトでの破綻検出）を行い�
 - `Zebra` / `EnvironmentMap`（ハイライトの連続性を見る）
 - `CurvatureAnalysis`（曲率のムラを見る）
 
+Q: G1/G2が必要な用途（CNC/金型/解析など）で、具体的に何を見てどう直せばいいですか？
+
+A: 用語の説明ではなく「症状→検査→修正」の流れでまとめたページを用意しています。
+
+- [G0/G1/G2連続の実務：症状→検査→修正（CNC/金型/解析向け）](/rhino/g1-g2-continuity-practical)
+- [フィレット/面取り：なぜRhinoは難しくなるか（CAD比較）](/rhino/fillet-and-chamfer-why-hard)
+
 ※曲線側の連続性（点列→曲線、G0/G1/G2）も絡む場合は、GH側の考え方として [直線・円弧（LINE/ARC）で点列を再現（DXF）](/grasshopper/point-to-curve-line-arc-dxf) も参照してください。
 
 ## 4) 落ちたときの“次の打ち手”（最短の戻り先）
