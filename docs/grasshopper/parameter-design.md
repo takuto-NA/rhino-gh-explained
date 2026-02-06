@@ -10,6 +10,45 @@ Q: Grasshopperで定義を作成する際、後からの変更に強い「パラ
 
 A: Grasshopperで「一度作って終わり」ではなく、何度も試行錯誤や修正ができる状態を作るには、**「何を固定し、何を可変なパラメータ（入力）として持つか」を最初に明確に設計する**ことが重要です。入力が整理されていると、形状の大きな変更や、製造条件の微調整に即座に対応できるようになります。
 
+```mermaid
+flowchart LR
+  %% ===== Inputs =====
+  subgraph group_Inputs["Inputs(LeftSide)"]
+    subgraph comp_Planes["Planes"]
+      out_Pl((Pln))
+    end
+    subgraph comp_Points["LandmarkPoints"]
+      out_Pt((Pt))
+    end
+    subgraph comp_Curves["Profiles(Curves)"]
+      out_Crv((Crv))
+    end
+    subgraph comp_Params["Parameters(Numbers)"]
+      out_T((Thickness_mm))
+      out_C((Clearance_mm))
+    end
+  end
+
+  %% ===== Downstream =====
+  subgraph group_Build["Build"]
+    subgraph comp_Construct["ConstructGeometry"]
+      in_Pl([Pln])
+      in_Pt([Pt])
+      in_Crv([Crv])
+      in_T([Thickness_mm])
+      in_C([Clearance_mm])
+      out_G((G))
+    end
+  end
+
+  %% ===== Wires =====
+  out_Pl --> in_Pl
+  out_Pt --> in_Pt
+  out_Crv --> in_Crv
+  out_T --> in_T
+  out_C --> in_C
+```
+
 ## 目的別の推奨入力
 
 Q: モデルの形状（造形）を柔軟に変更したい場合、どのような要素を入力パラメータとして持たせるのが効果的ですか？

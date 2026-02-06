@@ -81,17 +81,57 @@ A: 目的に応じて、以下のコンポーネントを使い分けます。
 
 ```mermaid
 flowchart LR
-  P[Points] --> C1[Clean: Cull Duplicates / Simplify Tree]
-  C1 --> C2[Order: sort / ensure sequence]
-  C2 --> M{目的}
-  M -->|通る必要あり| I[Interpolate]
-  M -->|ノイズあり| F[Fit Curve]
-  M -->|角が欲しい| L[Polyline]
-  M -->|直線/円弧| LA[Fit Line/Arc + Join]
-  I --> OUT[Curve]
-  F --> OUT
-  L --> OUT
-  LA --> OUT
+  %% ===== Inputs =====
+  subgraph group_Input["Input"]
+    in_Pts((Points))
+  end
+
+  %% ===== Preprocess =====
+  subgraph group_Pre["Preprocess"]
+    subgraph comp_Clean["Clean(CullDuplicates_SimplifyTree)"]
+      in_Clean([Points])
+      out_Clean((Points))
+    end
+    subgraph comp_Order["Order(Sort_EnsureSequence)"]
+      in_Order([Points])
+      out_Order((Points))
+    end
+  end
+
+  %% ===== Choice =====
+  subgraph group_Choice["ChooseMethod"]
+    subgraph comp_Interpolate["Interpolate"]
+      in_I([Points])
+      out_I((Curve))
+    end
+    subgraph comp_Fit["FitCurve"]
+      in_F([Points])
+      out_F((Curve))
+    end
+    subgraph comp_Polyline["Polyline"]
+      in_L([Points])
+      out_L((Curve))
+    end
+    subgraph comp_LineArc["FitLineArc_Join"]
+      in_LA([Points])
+      out_LA((Curve))
+    end
+  end
+
+  %% ===== Output =====
+  out_Final((Curve))
+
+  %% ===== Wires =====
+  in_Pts --> in_Clean
+  out_Clean --> in_Order
+  out_Order --> in_I
+  out_Order --> in_F
+  out_Order --> in_L
+  out_Order --> in_LA
+  out_I --> out_Final
+  out_F --> out_Final
+  out_L --> out_Final
+  out_LA --> out_Final
 ```
 
 ## よくある失敗と対策

@@ -20,10 +20,52 @@ A: 以下の4段階のステップ（フロー）を意識して構成します�
 
 ```mermaid
 flowchart LR
-  RefMesh[RefMesh_Locked] --> Inputs[Inputs_Planes_Points_Curves]
-  Inputs --> Curves[Curves_Contours_Pull_Fit]
-  Inputs --> Surfaces[Surfaces_Loft_Sweep_Network]
-  Surfaces --> Brep[Brep_Join_Cap]
+  %% ===== References / Inputs =====
+  subgraph group_Inputs["Inputs"]
+    subgraph comp_RefMesh["RefMesh(Locked)"]
+      out_Mesh((Mesh))
+    end
+    subgraph comp_Inputs["Inputs(Planes_Points_Curves)"]
+      out_Pl((Pln))
+      out_Pt((Pt))
+      out_Crv((Crv))
+    end
+  end
+
+  %% ===== Curves =====
+  subgraph group_Curves["Curves"]
+    subgraph comp_Contour["Contour_or_MeshPlane"]
+      in_MeshA([Mesh])
+      in_PlA([Pln])
+      out_Sec((Crv[]))
+    end
+    subgraph comp_CurveClean["CurveClean(Rebuild_Fit)"]
+      in_Sec([Crv[]])
+      out_CrvClean((Crv[]))
+    end
+  end
+
+  %% ===== Surfaces -> Brep =====
+  subgraph group_Surfaces["Surfaces"]
+    subgraph comp_Surfaces["Loft_Sweep_Network"]
+      in_CrvA([Crv[]])
+      out_Srf((Srf/Brep))
+    end
+  end
+
+  subgraph group_Brep["Brep"]
+    subgraph comp_Brep["Join_Cap"]
+      in_Srf([Srf/Brep])
+      out_Brep((Brep))
+    end
+  end
+
+  %% ===== Wires =====
+  out_Mesh --> in_MeshA
+  out_Pl --> in_PlA
+  out_Sec --> in_Sec
+  out_CrvClean --> in_CrvA
+  out_Srf --> in_Srf
 ```
 
 - **参照の固定**: 原型メッシュ（RefMesh）は動かさない。

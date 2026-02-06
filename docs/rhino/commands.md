@@ -82,6 +82,21 @@ A: 本リポジトリでは、次の組み合わせが繰り返し登場しま�
 | **切り出し** | `Split` | [エクスポートと最終検証](/rhino/export-and-validation) |
 | **作業安全** | `Copy` / `Lock` | [メッシュ→SubDワークフロー](/rhino/mesh-to-subd-workflow) |
 
+## フィレット/面取り・連続性（CADなら一発、Rhinoでは設計が要る）
+
+**Q: フィレット/面取り（エッジ丸め・C面）やG1/G2連続の確認で、最低限覚えるべきコマンドは？**
+
+**A:** 用途によって「一発で通る」か「面構成＋ブレンドで作る」かが変わります。まずは次を入口として覚えてください（厳密な仕様はヘルプ参照）。
+
+| 観点 | コマンド例 | 目的 | 関連ページ |
+| --- | --- | --- | --- |
+| **エッジフィレット** | `FilletEdge` | ソリッド/Brepのエッジに丸みを作る | [フィレット/面取り：なぜRhinoは難しくなるか（CAD比較）](/rhino/fillet-and-chamfer-why-hard) |
+| **サーフェスフィレット** | `FilletSrf` | サーフェス同士のフィレット（状況依存で難易度高め） | [サーフェスモデリングのフィレット/ブレンド手順](/rhino/fillet-workflow-for-surface-modeling) |
+| **エッジ面取り** | `ChamferEdge` | エッジの面取り（C面） | [フィレット/面取り：なぜRhinoは難しくなるか（CAD比較）](/rhino/fillet-and-chamfer-why-hard) |
+| **仕上げ（ブレンド面）** | `BlendSrf` | 2境界の間に滑らかな面を作り、面品質を作る | [G0/G1/G2連続の実務](/rhino/g1-g2-continuity-practical) |
+| **仕上げ（マッチ）** | `MatchSrf` | 既存の面同士をG1/G2で合わせる | [G0/G1/G2連続の実務](/rhino/g1-g2-continuity-practical) |
+| **面品質の可視化** | `Zebra` / `EnvironmentMap` / `CurvatureAnalysis` | 折れ/うねり/曲率ムラを検出する | [品質チェック（連続性・面品質・水密性）](/rhino/quality-checks-continuity-surface-watertight), [G0/G1/G2連続の実務](/rhino/g1-g2-continuity-practical) |
+
 ## 参照先
 
 **Q: コマンドのオプションや正確な仕様はどこで確認しますか？**

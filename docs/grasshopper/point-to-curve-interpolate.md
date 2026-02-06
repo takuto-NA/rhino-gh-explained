@@ -10,6 +10,44 @@ Q: このページの目的は？
 
 A: このページは、`point-to-curve.md` の詳細版として、補間曲線のアルゴリズム的な挙動、Catmull-Romスプラインとの違い、およびパラメータ化（KnotStyle）の選定基準に集中して解説します。
 
+```mermaid
+flowchart LR
+  %% ===== Inputs =====
+  subgraph group_Input["Input"]
+    in_Pts((Points))
+  end
+
+  %% ===== Preprocess (recommended) =====
+  subgraph group_Pre["Preprocess(Recommended)"]
+    subgraph comp_Clean["Clean(CullDuplicates_Order)"]
+      in_Clean([Points])
+      out_Clean((Points))
+    end
+  end
+
+  %% ===== Interpolate =====
+  subgraph group_Interpolate["Interpolate(NURBS)"]
+    subgraph comp_KnotStyle["KnotStyle(Uniform_Chord_SqrtChord)"]
+      out_KS((KnotStyle))
+    end
+    subgraph comp_Degree["Degree"]
+      out_Deg((Degree))
+    end
+    subgraph comp_Interpolate["Interpolate"]
+      in_I_Pts([Points])
+      in_I_KS([KnotStyle])
+      in_I_Deg([Degree])
+      out_Crv((Curve))
+    end
+  end
+
+  %% ===== Wires =====
+  in_Pts --> in_Clean
+  out_Clean --> in_I_Pts
+  out_KS --> in_I_KS
+  out_Deg --> in_I_Deg
+```
+
 ## 基本特性と制限
 
 Q: Interpolateコンポーネントの基本的な動作と、使用上の注意点は何ですか？

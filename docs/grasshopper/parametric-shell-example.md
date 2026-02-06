@@ -33,6 +33,57 @@ Q: 参照メッシュからスムーズで編集しやすい外形サーフェ�
 
 A: メッシュを直接変換するのではなく、**「曲線から面を編み出す」** 構成をとります。
 
+```mermaid
+flowchart LR
+  %% ===== References / Inputs =====
+  subgraph group_Inputs["Inputs(LeftSide)"]
+    subgraph comp_RefMesh["RefMesh(Locked)"]
+      out_Mesh((Mesh))
+    end
+    subgraph comp_RefPlanes["Planes"]
+      out_Pln((Pln))
+    end
+    subgraph comp_Params["Parameters"]
+      out_Thickness((Thickness_mm))
+      out_Clearance((Clearance_mm))
+    end
+  end
+
+  %% ===== Section curves =====
+  subgraph group_Sections["Sections(Curves)"]
+    subgraph comp_Contour["Contour_or_MeshPlane"]
+      in_MeshA([Mesh])
+      in_PlnA([Pln])
+      out_SecCrv((Crv[]))
+    end
+    subgraph comp_Rebuild["RebuildCurve"]
+      in_CrvList([Crv[]])
+      out_Rebuilt((Crv[]))
+    end
+  end
+
+  %% ===== Surfaces -> Shell -> Brep =====
+  subgraph group_Surfaces["Surfaces_to_Brep"]
+    subgraph comp_Loft["Loft_or_NetworkSrf"]
+      in_Loft([Crv[]])
+      out_Srf((Srf/Brep))
+    end
+    subgraph comp_Offset["OffsetSurface"]
+      in_Srf([Srf/Brep])
+      in_T([Thickness_mm])
+      out_Shell((Brep))
+    end
+  end
+
+  %% ===== Wires =====
+  out_Mesh --> in_MeshA
+  out_Pln --> in_PlnA
+  out_SecCrv --> in_CrvList
+  out_Rebuilt --> in_Loft
+  out_Srf --> in_Srf
+  out_Thickness --> in_T
+```
+
 1. **断面の抽出・整理**: 参照メッシュから `Contour` や `Mesh × Plane` で断面を取り、`Rebuild Curve` で制御点を整えた「設計用断面曲線」を作成します。
 2. **サーフェス生成**: 整えた曲線群を `Loft`（ロフト）や `Network Surface`（ネットワークサーフェス）に繋ぎ、滑らかな外観（A面）を生成します。
 
