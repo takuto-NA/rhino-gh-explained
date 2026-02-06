@@ -17,6 +17,7 @@ A: 「後から変更できる形」を作るために、Grasshopperの **壊れ
 - [パラメータ設計（壊れにくい入力の作り方）](/grasshopper/parameter-design)
 - [参照メッシュからNURBS/Brepへ再構築（Grasshopperの"壊れにくい型"）](/grasshopper/mesh-reference-to-brep-rebuild)
 - [実例: メッシュ原型→編集可能な外装（最小GH構成）](/grasshopper/parametric-shell-example)
+- [実例: STLからSTEPへの変換（ANSYS Workbench連携）](/grasshopper/stl-to-step-conversion)
 
 ## 3Dプリント目的でGHを使う場合（入口）
 
